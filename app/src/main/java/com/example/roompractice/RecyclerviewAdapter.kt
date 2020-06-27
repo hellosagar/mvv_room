@@ -44,9 +44,6 @@ class RecyclerviewAdapter(
 class MyViewHolder(val binding: ItemListBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(subscriber: Subscriber,clickListner: ((Subscriber) -> Unit)) {
-        binding.nameTextViewItem.text = subscriber.name
-        binding.emailTextViewItem.text = subscriber.email
-
         binding.parentItem.setOnClickListener {
             clickListner(subscriber)
         }

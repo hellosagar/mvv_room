@@ -12,22 +12,18 @@ import com.example.roompractice.db.Subscriber
 import com.example.roompractice.db.SubscriberRepository
 import kotlinx.coroutines.launch
 
-class SubscriberViewModel(val repository: SubscriberRepository) : ViewModel(), Observable {
+class SubscriberViewModel(val repository: SubscriberRepository) : ViewModel(){
 
     val subscribers = repository.subscribers
     private var isUpdateOrDelete: Boolean = false
     private lateinit var subscriberToUpdateOrDelete: Subscriber
 
-    @Bindable
     val inputName = MutableLiveData<String>()
 
-    @Bindable
     val inputEmail = MutableLiveData<String>()
 
-    @Bindable
     val saveOrUpdateButtontext = MutableLiveData<String>()
 
-    @Bindable
     val clearAllOrDeleteButtonText = MutableLiveData<String>()
 
     private val statusMesage = MutableLiveData<Event<String>>()
@@ -119,12 +115,5 @@ class SubscriberViewModel(val repository: SubscriberRepository) : ViewModel(), O
         clearAllOrDeleteButtonText.value = "Delete"
     }
 
-    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
-
-    }
-
-    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
-
-    }
 
 }
