@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityMainBinding
     private lateinit var viewModel:SubscriberViewModel
+    private lateinit var adapter:RecyclerviewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,24 +28,33 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this,factory).get(SubscriberViewModel::class.java)
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
-
         initRecyclerview()
+
+        viewModel.message.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun initRecyclerview(){
         binding.susbsriberRecyclerview.layoutManager = LinearLayoutManager(this)
+        displaySubscribersList()
+        adapter = RecyclerviewAdapter ({selectedSubscriber:Subscriber -> listItemClick(selectedSubscriber)})
+        binding.susbsriberRecyclerview.adapter = adapter
         displaySubscribersList()
     }
 
     private fun displaySubscribersList(){
         viewModel.subscribers.observe(this, Observer {
             Log.d("List Of Items",it.toString())
-            binding.susbsriberRecyclerview.adapter = RecyclerviewAdapter(it,{selectedSubscriber:Subscriber -> listItemClick(selectedSubscriber)})
+            adapter.setList(it)
+            adapter.notifyDataSetChanged()
         })
     }
 
     private fun listItemClick(subscriber:Subscriber){
-        Toast.makeText(this, "Name: ${subscriber.name}\nEmail: ${subscriber.email}", Toast.LENGTH_SHORT).show()
+        viewModel.initUpdateOrDelete(subscriber)
     }
 
 }

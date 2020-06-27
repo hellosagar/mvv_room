@@ -2,16 +2,21 @@ package com.example.roompractice
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.MultiAutoCompleteTextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.roompractice.databinding.ItemListBinding
 import com.example.roompractice.db.Subscriber
 
 class RecyclerviewAdapter(
-    private val subscribers: List<Subscriber>,
     private val clickListner: ((Subscriber) -> Unit)
 ) : RecyclerView.Adapter<MyViewHolder>() {
+
+    private val subscribersList= ArrayList<Subscriber>()
+
+    fun setList(subscribers: List<Subscriber>){
+        subscribersList.clear()
+        subscribersList.addAll(subscribers)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflator = LayoutInflater.from(parent.context)
@@ -26,11 +31,11 @@ class RecyclerviewAdapter(
     }
 
     override fun getItemCount(): Int {
-        return subscribers.size
+        return subscribersList.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(subscribers[position],clickListner)
+        holder.bind(subscribersList[position],clickListner)
     }
 
 
